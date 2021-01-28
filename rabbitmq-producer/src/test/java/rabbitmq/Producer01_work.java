@@ -61,6 +61,9 @@ public class Producer01_work {
             String message = "hello world 黑马程序员";
             channel.basicPublish("",QUEUE,null,message.getBytes());
             System.out.println("send to mq "+message);
+            String message2 = "hello world 黑马程序员2";
+            channel.basicPublish("",QUEUE,null,message2.getBytes());
+            System.out.println("send to mq 2"+message2);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

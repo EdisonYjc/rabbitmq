@@ -26,16 +26,16 @@ public class Producer05_topics_springboot {
     //使用rabbitTemplate发送消息
     @Test
     public void testSendEmail(){
-
-        String message = "send email message to user";
-        /**
-         * 参数：
-         * 1、交换机名称
-         * 2、routingKey
-         * 3、消息内容
-         */
-        rabbitTemplate.convertAndSend(RabbitmqConfig.EXCHANGE_TOPICS_INFORM,"inform.email",message);
-
+        for (int i = 0; i < 5; i++) {
+            String message = "send email message to user"+i;
+            /**
+             * 参数：
+             * 1、交换机名称
+             * 2、routingKey
+             * 3、消息内容
+             */
+            rabbitTemplate.convertAndSend(RabbitmqConfig.EXCHANGE_TOPICS_INFORM,"inform.sms",message);
+        }
     }
 
     //使用rabbitTemplate发送消息

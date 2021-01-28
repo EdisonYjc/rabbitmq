@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 /**
+ * 发布订阅模式适用场景：
+ * 用户通知，当用户充值成功或转账完成系统通知用户，通知方式有短信、邮件多种方法 。
  * @author Administrator
  * @version 1.0
  * @create 2018-06-17 18:10
@@ -32,11 +34,11 @@ public class Producer02_publish {
         Connection connection = null;
         Channel channel = null;
         try {
-            //建立新连接
+            //step1：建立新连接
             connection = connectionFactory.newConnection();
-            //创建会话通道,生产者和mq服务所有通信都在channel通道中完成
+            //step2：创建会话通道,生产者和mq服务所有通信都在channel通道中完成
             channel = connection.createChannel();
-            //声明队列，如果队列在mq 中没有则要创建
+            //step3：声明队列，如果队列在mq 中没有则要创建
             //参数：String queue, boolean durable, boolean exclusive, boolean autoDelete, Map<String, Object> arguments
             /**
              * 参数明细
@@ -48,7 +50,7 @@ public class Producer02_publish {
              */
             channel.queueDeclare(QUEUE_INFORM_EMAIL,true,false,false,null);
             channel.queueDeclare(QUEUE_INFORM_SMS,true,false,false,null);
-            //声明一个交换机
+            //step4：声明一个交换机
             //参数：String exchange, String type
             /**
              * 参数明细：
@@ -60,7 +62,7 @@ public class Producer02_publish {
              * headers： 对应的headers工作模式
              */
             channel.exchangeDeclare(EXCHANGE_FANOUT_INFORM, BuiltinExchangeType.FANOUT);
-            //进行交换机和队列绑定
+            //step5：进行交换机和队列绑定
             //参数：String queue, String exchange, String routingKey
             /**
              * 参数明细：
@@ -70,7 +72,7 @@ public class Producer02_publish {
              */
             channel.queueBind(QUEUE_INFORM_EMAIL,EXCHANGE_FANOUT_INFORM,"");
             channel.queueBind(QUEUE_INFORM_SMS,EXCHANGE_FANOUT_INFORM,"");
-            //发送消息
+            //step6：发送消息
             //参数：String exchange, String routingKey, BasicProperties props, byte[] body
             /**
              * 参数明细：

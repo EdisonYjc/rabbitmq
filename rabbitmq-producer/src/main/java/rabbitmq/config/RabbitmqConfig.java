@@ -19,6 +19,11 @@ public class RabbitmqConfig {
     public static final String ROUTINGKEY_SMS="inform.#.sms.#";
 
     //声明交换机
+    /**
+     * 交换机配置
+     * ExchangeBuilder提供了fanout、direct、topic、header交换机类型的配置
+     * @return the exchange
+     */
     @Bean(EXCHANGE_TOPICS_INFORM)
     public Exchange EXCHANGE_TOPICS_INFORM(){
         //durable(true) 持久化，mq重启之后交换机还在
@@ -35,8 +40,12 @@ public class RabbitmqConfig {
     public Queue QUEUE_INFORM_SMS(){
         return new Queue(QUEUE_INFORM_SMS);
     }
-
-    //ROUTINGKEY_EMAIL队列绑定交换机，指定routingKey
+    /** channel.queueBind(INFORM_QUEUE_SMS,"inform_exchange_topic","inform.#.sms.#");
+     * 绑定队列到交换机 .
+     * @param queue the queue
+     * @param exchange the exchange
+     * @return the binding
+     */
     @Bean
     public Binding BINDING_QUEUE_INFORM_EMAIL(@Qualifier(QUEUE_INFORM_EMAIL) Queue queue,
                                               @Qualifier(EXCHANGE_TOPICS_INFORM) Exchange exchange){

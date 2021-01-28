@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 /**
+ * 适用场景：
+ * 根据用户的通知设置去通知用户，设置接收Email的用户只接收Email，设置接收sms的用户只接收sms，设置两种
+ * 通知类型都接收的则两种通知都有效。
  * @author Administrator
  * @version 1.0
  * @create 2018-06-17 19:23
@@ -18,6 +21,11 @@ public class Producer04_topics {
     private static final String QUEUE_INFORM_EMAIL = "queue_inform_email";
     private static final String QUEUE_INFORM_SMS = "queue_inform_sms";
     private static final String EXCHANGE_TOPICS_INFORM="exchange_topics_inform";
+    /**
+     * 统配符规则：
+     * 中间以 “.” 分隔。
+     * 符号 “#” 可以匹配多个词，符号 “*” 可以匹配一个词语。
+     */
     private static final String ROUTINGKEY_EMAIL="inform.#.email.#";
     private static final String ROUTINGKEY_SMS="inform.#.sms.#";
     public static void main(String[] args) {

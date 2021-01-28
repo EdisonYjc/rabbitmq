@@ -33,11 +33,11 @@ public class Producer03_routing {
         Connection connection = null;
         Channel channel = null;
         try {
-            //建立新连接
+            //step1：建立新连接
             connection = connectionFactory.newConnection();
-            //创建会话通道,生产者和mq服务所有通信都在channel通道中完成
+            //step2：创建会话通道,生产者和mq服务所有通信都在channel通道中完成
             channel = connection.createChannel();
-            //声明队列，如果队列在mq 中没有则要创建
+            //step3：声明队列，如果队列在mq 中没有则要创建
             //参数：String queue, boolean durable, boolean exclusive, boolean autoDelete, Map<String, Object> arguments
             /**
              * 参数明细
@@ -49,7 +49,7 @@ public class Producer03_routing {
              */
             channel.queueDeclare(QUEUE_INFORM_EMAIL,true,false,false,null);
             channel.queueDeclare(QUEUE_INFORM_SMS,true,false,false,null);
-            //声明一个交换机
+            //step4：声明一个交换机
             //参数：String exchange, String type
             /**
              * 参数明细：
@@ -61,7 +61,7 @@ public class Producer03_routing {
              * headers： 对应的headers工作模式
              */
             channel.exchangeDeclare(EXCHANGE_ROUTING_INFORM, BuiltinExchangeType.DIRECT);
-            //进行交换机和队列绑定
+            //step5：进行交换机和队列绑定
             //参数：String queue, String exchange, String routingKey
             /**
              * 参数明细：
@@ -73,7 +73,7 @@ public class Producer03_routing {
             channel.queueBind(QUEUE_INFORM_EMAIL,EXCHANGE_ROUTING_INFORM,"inform");
             channel.queueBind(QUEUE_INFORM_SMS,EXCHANGE_ROUTING_INFORM,ROUTINGKEY_SMS);
             channel.queueBind(QUEUE_INFORM_SMS,EXCHANGE_ROUTING_INFORM,"inform");
-            //发送消息
+            //step6：发送消息
             //参数：String exchange, String routingKey, BasicProperties props, byte[] body
             /**
              * 参数明细：
@@ -82,13 +82,13 @@ public class Producer03_routing {
              * 3、props，消息的属性
              * 4、body，消息内容
              */
-           /* for(int i=0;i<5;i++){
+            /*for(int i=0;i<5;i++){
                 //发送消息的时候指定routingKey
                 String message = "send email inform message to user";
                 channel.basicPublish(EXCHANGE_ROUTING_INFORM,ROUTINGKEY_EMAIL,null,message.getBytes());
                 System.out.println("send to mq "+message);
-            }
-            for(int i=0;i<5;i++){
+            }*/
+            /*for(int i=0;i<5;i++){
                 //发送消息的时候指定routingKey
                 String message = "send sms inform message to user";
                 channel.basicPublish(EXCHANGE_ROUTING_INFORM,ROUTINGKEY_SMS,null,message.getBytes());

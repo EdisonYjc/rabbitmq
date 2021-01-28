@@ -12,9 +12,15 @@ import rabbitmq.config.RabbitmqConfig;
 @Component
 public class ReceiveHandler {
 
+    //监听email队列
     @RabbitListener(queues = {RabbitmqConfig.QUEUE_INFORM_EMAIL})
     public void send_email(String msg,Message message,Channel channel){
-        System.out.println("receive message is:"+msg);
+        System.out.println("receive email message is:"+msg);
+    }
+    //监听sms队列
+    @RabbitListener(queues = {RabbitmqConfig.QUEUE_INFORM_SMS})
+    public void receive_sms(String msg,Message message,Channel channel){
+        System.out.println("receive sms message is:"+msg);
     }
 
 }
